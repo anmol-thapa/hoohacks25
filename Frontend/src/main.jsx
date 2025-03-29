@@ -7,6 +7,7 @@ import ProtectedRoute from './auth/ProtectedRoute.jsx'
 import { AuthProvider } from './auth/UserAuth.jsx'
 import Login from './pages/Login/Login.jsx'
 import Home from './pages/Outlets/Home/Home.jsx'
+import Schedule from './pages/Outlets/Schedule/Schedule.jsx'
 
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />
       },
+      {
+        path: '/schedule',
+        element: <Schedule />
+      }
     ]
   },
   {

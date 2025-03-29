@@ -1,0 +1,15 @@
+:root {
+  --background-color: rgb(24, 24, 24);
+  --sidebar-color: rgb(100, 100, 100);
+  --text-color: rgb(200, 200, 200);
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+}
+
+p {
+  margin: 0;
+  color: var(--text-color)
+}
