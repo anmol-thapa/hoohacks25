@@ -1,8 +1,10 @@
-export default function Login() {
+
+
+export default function Home() {
   return (
     <>
       <p>
-        Hi
+        Hello
       </p>
     </>
   )

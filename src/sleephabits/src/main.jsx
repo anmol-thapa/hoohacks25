@@ -5,7 +5,8 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import ProtectedRoute from './auth/ProtectedRoute.jsx'
 import { AuthProvider } from './auth/UserAuth.jsx'
-import Login from './pages/Login.jsx'
+import Login from './pages/Login/Login.jsx'
+import Home from './pages/Outlets/Home/Home.jsx'
 
 
 const router = createBrowserRouter([
@@ -15,7 +16,13 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <App />
       </ProtectedRoute>
-    )
+    ),
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+    ]
   },
   {
     path: '/login',
@@ -26,9 +33,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
+      <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>,
 )
