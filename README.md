@@ -19,15 +19,15 @@ Another challenge was designing a chatbot that remains educational without overw
 We built a fully functional website that helps students figure out if their sleep is on point (or a disaster), teaches them useful sleep facts through flashcards, and even helps them fall asleep with personalized music — all packed into one friendly assistant.
 
 Additionally, we:
--Built a functional AI chatbot with a smooth conversational flow.
--Overcame formatting and response length issues to make the experience concise and enjoyable.
--Created a tool we would genuinely use ourselves!
+- Built a functional AI chatbot with a smooth conversational flow.
+- Overcame formatting and response length issues to make the experience concise and enjoyable.
+- Created a tool we would genuinely use ourselves!
 
 ## What we learned
--Prompt engineering is crucial when working with large language models.
--Designing for students means prioritizing simplicity and brevity.
--We learned how to integrate AI smoothly into the frontend while keeping it friendly for non-technical users.
--We also gained valuable experience in frontend-backend communication under real-world constraints.
+- Prompt engineering is crucial when working with large language models.
+- Designing for students means prioritizing simplicity and brevity.
+- We learned how to integrate AI smoothly into the frontend while keeping it friendly for non-technical users.
+- We also gained valuable experience in frontend-backend communication under real-world constraints.
 
 ## What's next for Dormio
 Next, we plan to integrate sleep data input — both manual entry and wearable sync — and build a habit tracker that provides personalized, adaptive feedback over time. We’ll expand our educational flashcard library, develop a generative sleep music feature, and enhance our AI responses using richer datasets for more insightful coaching. Our goal is to launch beta testing on campus and scale Dormio.Tech into the go-to sleep companion for students everywhere.
