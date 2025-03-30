@@ -14,7 +14,7 @@ export default function Home() {
         {/* User Info Widget */}
         <div className={styles.card}>
           <h2 className={styles.cardTitle}>Your Profile</h2>
-          <p className={styles.cardContent}>Name: {user?.name || "Unknown"}</p>
+          <p className={styles.cardContent}>Name: {user.username || "Unknown"}</p>
         </div>
 
         {/* Future Widget: Activity Tracker (Placeholder) */}

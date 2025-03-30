@@ -7,14 +7,14 @@ import ProtectedRoute from './auth/ProtectedRoute.jsx'
 import './index.css'
 import App from './App.jsx'
 import Login from './pages/Login/Login.jsx'
-import Signup from './pages/Signup.jsx'
+import Signup from './pages/Signup/Signup.jsx'
 
 // Outlet pages
 import Home from './pages/Outlets/Home/Home.jsx'
 import Schedule from './pages/Outlets/Schedule/Schedule.jsx'
 import Learn from './pages/Outlets/Learn/Learn.jsx'
 import Questionnaire from './pages/Questionnaire/Questionnaire.jsx'
-import Tracker from './pages/Tracker.jsx'
+import Tracker from './pages/Outlets/Tracker/Tracker.jsx'
 
 const router = createBrowserRouter([
   {

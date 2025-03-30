@@ -4,7 +4,7 @@ import style from "./Questionnaire.module.css";
 import { useState } from "react";
 
 export default function Questionnaire() {
-  const { user } = useAuth();
+  const { user } = useAuth(); // Ensure setUser is available
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentAnswerClicked, setCurrentAnswerClicked] = useState(false);
   const [highestAnswered, setHighestAnswered] = useState(0);
@@ -36,10 +36,34 @@ export default function Questionnaire() {
   };
 
   const handleFinish = () => {
+    // Create updated user object with questionnaire data
+    const updatedUser = { ...user, questionnaire: answers };
+
+    // Update local storage user session (AuthProvider will auto-detect this)
+    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+
     user.questionnaire = answers;
-    localStorage.setItem('user', JSON.stringify(user));
+
+    // Retrieve and update `accounts` in local storage
+    let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+
+    // Ensure `accounts` is always an array
+    if (!Array.isArray(accounts)) {
+      accounts = [];
+    }
+
+    // Update the specific user's questionnaire in `accounts`
+    accounts = accounts.map((acc) =>
+      acc.username === user.username ? updatedUser : acc
+    );
+
+    // Save updated accounts array back to local storage
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+
+    // Mark questionnaire as finished
     setFinished(true);
   };
+
 
   if (finished) {
     return <Navigate to="/" />;
@@ -77,11 +101,19 @@ export default function Questionnaire() {
             </button>
           )}
           {currentQuestionIndex < questions.length - 1 ? (
-            <button onClick={handleNext} className={style.button} disabled={!currentAnswerClicked}>
+            <button
+              onClick={handleNext}
+              className={style.button}
+              disabled={!currentAnswerClicked}
+            >
               Next
             </button>
           ) : (
-            <button onClick={handleFinish} className={style.finishButton} disabled={!currentAnswerClicked}>
+            <button
+              onClick={handleFinish}
+              className={style.finishButton}
+              disabled={!currentAnswerClicked}
+            >
               Finish
             </button>
           )}

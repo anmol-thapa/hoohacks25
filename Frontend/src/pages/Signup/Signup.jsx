@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import style from './Signup.module.css';
+import { useAuth } from '../../auth/UserAuth.jsx';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,40 +42,14 @@ export default function Signup() {
       return;
     }
 
-    try {
-      const response = await fetch('http://localhost:5000/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password
-        })
+    await signup(formData)
+      .then(() => {
+        navigate('/');
+      })
+      .catch(err => {
+        setError(err.message);
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (data.error === 'Username already exists') {
-          setError('This username is already taken. Please choose another one.');
-        } else if (data.error === 'Email already exists') {
-          setError('This email is already registered. Please use a different email or log in.');
-        } else {
-          throw new Error(data.error || 'Failed to sign up');
-        }
-        setLoading(false);
-        return;
-      }
-
-      // Redirect to login page
-      navigate('/login');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   return (
@@ -82,9 +58,9 @@ export default function Signup() {
       <div className={style.card}>
         <h1 className={style.title}>Create Account</h1>
         <p className={style.subtitle}>Join us to track your sleep patterns</p>
-        
+
         {error && <div className={style.error}>{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -130,7 +106,7 @@ export default function Signup() {
             {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
-        
+
         <div className={style.loginLink}>
           Already have an account?{" "}
           <a href="/login">Log in</a>

@@ -1,56 +1,39 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import style from './Login.module.css';
-import { useAuth } from '../../auth/UserAuth';
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import style from "./Login.module.css";
+import { useAuth } from "../../auth/UserAuth";
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login } = useAuth(); // Uses the new login function
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
-    try {
-      const response = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+    // Use the login function from UserAuth
+    await login(formData)
+      .then(() => navigate("/questionnaire"))
+      .catch((err) => {
+        setError(err.message);
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to log in');
-      }
-
-      // Use the login function from UserAuth
-      await login(data);
-      
-      // Redirect to questionnaire page
-      navigate('/questionnaire');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   return (
@@ -85,13 +68,12 @@ export default function Login() {
           />
           {error && <div className={style.error}>{error}</div>}
           <button type="submit" className={style.button} disabled={loading}>
-            {loading ? 'Logging in...' : 'Log In'}
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
         <div className={style.signupLink}>
-          Don't have an account?{" "}
-          <a href="/signup">Sign up</a>
+          Don't have an account? <a href="/signup">Sign up</a>
         </div>
       </div>
     </div>
