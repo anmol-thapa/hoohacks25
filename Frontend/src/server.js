@@ -10,7 +10,7 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
 // OpenAI API endpoint
-app.post('/schedule', async (req, res) => {
+app.post('/askai', async (req, res) => {
   try {
     const { message } = req.body;
 

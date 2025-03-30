@@ -11,7 +11,7 @@ export default function Schedule() {
 
   const sendMessageToGPT = async (message) => {
     try {
-      const response = await fetch("http://localhost:5839/schedule", {
+      const response = await fetch("http://localhost:5839/askai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

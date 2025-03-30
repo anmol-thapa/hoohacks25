@@ -1,19 +1,25 @@
+/* Main container */
 .container {
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
 }
 
+/* Title */
 .title {
   color: white;
 }
 
+/* Form Styling */
 .form {
   padding: 2rem;
   border-radius: 8px;
   margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
 }
 
+/* Form groups (label + input) */
 .formGroup {
   margin-bottom: 1.5rem;
 }
@@ -45,6 +51,7 @@
   color: #666;
 }
 
+/* Buttons */
 button {
   width: 100%;
   padding: 0.75rem;
@@ -67,6 +74,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Error messages */
 .error {
   color: #ef4444;
   margin-bottom: 1rem;
@@ -75,8 +83,8 @@ button:disabled {
   border-radius: 4px;
 }
 
+/* AI Response Section */
 .result {
-  background-color: #1a1a1a;
   padding: 2rem;
   border-radius: 8px;
   margin-bottom: 2rem;
@@ -87,6 +95,20 @@ button:disabled {
   margin-bottom: 1.5rem;
 }
 
+/* AI Response Formatting */
+.response {
+  white-space: pre-wrap;
+  padding: 15px;
+  border-radius: 8px;
+  color: #e4e6eb;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 4px solid #8b5cf6;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.1);
+}
+
+/* Sleep Prediction */
 .prediction {
   margin-bottom: 1.5rem;
 }
@@ -96,6 +118,7 @@ button:disabled {
   font-size: 1.5rem;
 }
 
+/* Insights Section */
 .insights {
   margin-bottom: 1.5rem;
 }
@@ -124,6 +147,7 @@ button:disabled {
   left: 0;
 }
 
+/* Recommendations Section */
 .recommendations {
   margin-bottom: 1.5rem;
 }
@@ -138,8 +162,8 @@ button:disabled {
   line-height: 1.6;
 }
 
+/* Sleep History */
 .history {
-  background-color: #1a1a1a;
   padding: 2rem;
   border-radius: 8px;
 }
@@ -149,11 +173,14 @@ button:disabled {
   margin-bottom: 1.5rem;
 }
 
+/* Individual History Items */
 .historyItem {
   background-color: #2a2a2a;
   padding: 1.5rem;
   border-radius: 4px;
   margin-bottom: 1rem;
+  border-left: 4px solid #8b5cf6;
+  box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.1);
 }
 
 .historyItem h3 {

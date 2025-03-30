@@ -223,71 +223,61 @@ def predict():
     """Make predictions on sleep quality and generate recommendations"""
     try:
         if ml_model is None:
-            return jsonify({
-                'error': 'Model not loaded'
-            }), 500
+            return jsonify({'error': 'Model not loaded'}), 500
 
         if stats is None:
-            return jsonify({
-                'error': 'Dataset statistics not loaded'
-            }), 500
+            return jsonify({'error': 'Dataset statistics not loaded'}), 500
 
         # Get data from request
         data = request.get_json()
-        user_id = data.get('user_id')
-        
-        if not user_id:
-            return jsonify({'error': 'User ID is required'}), 400
-        
-        # Remove Sleep_Quality and user_id if they exist in the input
-        if 'Sleep_Quality' in data:
-            del data['Sleep_Quality']
-        if 'user_id' in data:
-            del data['user_id']
-        
+        user_id = data.get('user_id')  # May be missing in some cases
+
+        # Remove unnecessary fields
+        data.pop('Sleep_Quality', None)
+        data.pop('user_id', None)
+
         # Convert to DataFrame
         df = pd.DataFrame([data])
-        
+
         # Preprocess the data
         processed_data = initial_preprocess(df)
-        
+
         # Make prediction
         prediction = ml_model.predict(processed_data)[0]
-        
+
         # Analyze patterns and generate insights
         insights = analyze_sleep_patterns(data)
-        
+
         # Generate recommendations
         recommendations = generate_recommendations(data, prediction, insights)
-        
-        # Save record to database
-        record_data = {
-            'prediction': float(prediction),
-            'insights': insights,
-            'recommendations': recommendations,
-            'input_data': data
-        }
-        record_id = save_sleep_record(user_id, record_data)
-        
+
+        # Save record only if user_id exists
+        record_id = None
+        if user_id:
+            record_data = {
+                'prediction': float(prediction),
+                'insights': insights,
+                'recommendations': recommendations,
+                'input_data': data
+            }
+            record_id = save_sleep_record(user_id, record_data)
+
         response = {
             'prediction': float(prediction),
             'message': 'Prediction successful',
             'insights': insights,
             'recommendations': recommendations,
             'using_fallback': not GEMINI_AVAILABLE,
-            'record_id': record_id
+            'record_id': record_id if user_id else "Not saved"
         }
-        
+
         return jsonify(response)
 
     except KeyError as e:
-        return jsonify({
-            'error': f'Missing required feature: {str(e)}'
-        }), 400
+        return jsonify({'error': f'Missing required feature: {str(e)}'}), 400
     except Exception as e:
-        return jsonify({
-            'error': f'Error processing request: {str(e)}'
-        }), 500
+        return jsonify({'error': f'Error processing request: {str(e)}'}), 500
+
 
 @app.route('/history/<user_id>', methods=['GET'])
 def get_history(user_id):
