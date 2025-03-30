@@ -1,13 +1,83 @@
-.sidebar {
-  width: 100%;
-  height: 100%;
-  background-color: var(--sidebar-color)
+/* --- Colors --- */
+:root {
+  --sidebar-bg: #2C3E50;
+  /* Deep blue for a calming effect */
+  --text-color: #ECF0F1;
+  /* Soft white for readability */
+  --hover-bg: #34495E;
+  /* Slightly lighter blue for hover */
+  --active-bg: #A29BFE;
+  /* Gentle purple for active state */
+  --logout-bg: #E74C3C;
+  /* Soft red for logout */
+  --logout-hover: #C0392B;
 }
 
-.navButtons {
+/* Sidebar container (kept the same) */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100vh;
+  background-color: var(--sidebar-bg);
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
   align-items: center;
+  justify-content: space-between;
+}
+
+/* Navigation buttons container */
+.navButtons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  /* Space between items */
+}
+
+/* Styling for navigation links */
+.navButtons a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+  width: 85%;
+  text-align: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for navigation links */
+.navButtons a:hover {
+  background-color: var(--hover-bg);
+  transform: scale(1.05);
+}
+
+/* Active link styling */
+.navButtons .active {
+  background-color: var(--active-bg);
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(162, 155, 254, 0.6);
+}
+
+/* Logout button */
+.navButtons p {
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Logout button hover effect */
+.navButtons p:hover {
+  background-color: var(--logout-bg);
+  color: white;
+  transform: scale(1.05);
 }

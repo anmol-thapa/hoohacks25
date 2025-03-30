@@ -5,9 +5,7 @@
   flex-direction: row;
 }
 
-.sidebar {
-  width: 10%;
-  height: 100%;
+.outlet {
+  margin-left: 15%;
+  width: 100%;
 }
-
-.outlet {}

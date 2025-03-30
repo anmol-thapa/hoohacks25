@@ -1,18 +1,26 @@
-import { NavLink } from 'react-router';
+import { NavLink, Navigate } from 'react-router';
 import style from './Sidebar.module.css';
+import { useAuth } from '../../auth/UserAuth.jsx';
 
 export default function Sidebar() {
+  const { logout } = useAuth();
 
   return (
     <div className={style.sidebar}>
 
       <div className={style.navButtons}>
         <NavLink to='/'>
-          <p>Home</p>
+          Home
         </NavLink>
         <NavLink to='/schedule'>
-          <p>Schedule</p>
+          Schedule
         </NavLink>
+        <NavLink to='/learn'>
+          Learn
+        </NavLink>
+        <p onClick={logout} style={{ cursor: 'pointer' }}>
+          Logout
+        </p>
       </div>
     </div>
   )
