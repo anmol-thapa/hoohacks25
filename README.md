@@ -1,4 +1,4 @@
-# HooHacks25
+# HooHacks25 - Dormio
 
 Dormio turns sleep into strategy — AI, flashcards, and habit coaching for the academically exhausted.
 
@@ -6,9 +6,18 @@ Dormio turns sleep into strategy — AI, flashcards, and habit coaching for the 
 As college students ourselves, we noticed that many students struggle with maintaining a healthy sleep routine due to academic pressure, late-night studying, and poor sleep habits. Dormio.tech was inspired by the idea of creating a personal sleep companion that could educate students, provide personalized insights, and encourage better sleep habits — all in a fun and interactive way.
 
 ## What it does
-Track your sleep and 
+- User Login/Authentication: Allows each user to create a personalized experience by securely logging in and saving their sleep data, questionnaire answers, and progress across sessions.
+- Questionnaire: A quick onboarding quiz that gathers information about the user’s sleep habits, routines, and challenges.
+- Informational Cards: Interactive cards that teach users about sleep science, habits, and recovery tips in a fun, bite-sized format — designed to educate without overwhelming.
+- Nap Schedule Optimizer: Analyzes the user’s calendar details to identify ideal nap times based on their free time, sleep debt, and daily rhythm — turning downtime into recharging time.
+- Sleep Tracker Analysis - Provides users with a summary of their sleep behavior over time, surfaces key insights (like consistency or late-night usage), and offers tailored recommendations to improve sleep quality.
 
 ## How we built it
+- User Login/Authentication: Custom-Made React, UAuth 
+- Questionnaire: React, Decision Tree
+- Informational Cards: React
+- Nap Schedule Optimizer: React, OpenAI
+- Sleep Tracker Analysis: Gemini, XGBoost
 
 ## Challenges we ran into
 We faced several challenges during development. Integrating Gemini AI into our chatbot required fine-tuning both the prompt and the post-processing to make the responses feel more like a sleep-focused diagnosis. We also had to carefully limit the answer range to keep interactions natural and manageable.
