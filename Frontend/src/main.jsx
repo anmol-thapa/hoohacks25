@@ -13,7 +13,7 @@ import Home from './pages/Outlets/Home/Home.jsx'
 import Schedule from './pages/Outlets/Schedule/Schedule.jsx'
 import Learn from './pages/Outlets/Learn/Learn.jsx'
 import Questionnaire from './pages/Questionnaire/Questionnaire.jsx'
-
+import Tracker from './pages/Tracker.jsx'
 
 const router = createBrowserRouter([
   {
@@ -32,10 +32,13 @@ const router = createBrowserRouter([
         path: '/schedule',
         element: <Schedule />
       },
-
       {
         path: '/learn',
         element: <Learn />
+      },
+      {
+        path: '/tracker',
+        element: <Tracker />
       }
     ]
   },

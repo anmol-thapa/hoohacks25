@@ -21,18 +21,24 @@ def load_data(file_path):
         print("Error parsing the CSV file.")
         raise
 
+def calculate_sleep_durations(df):
+    # Calculate sleep durations from start and end times
+    df['Weekday_Sleep_Duration'] = df['Weekday_Sleep_End'] - df['Weekday_Sleep_Start']
+    df['Weekend_Sleep_Duration'] = df['Weekend_Sleep_End'] - df['Weekend_Sleep_Start']
+    
+    # Adjust for any negative values (e.g., if sleep starts late at night and ends after midnight)
+    df['Weekday_Sleep_Duration'] = df['Weekday_Sleep_Duration'].apply(lambda x: x + 24 if x < 0 else x)
+    df['Weekend_Sleep_Duration'] = df['Weekend_Sleep_Duration'].apply(lambda x: x + 24 if x < 0 else x)
+    
+    return df
+
 def remove_invalid_values(df):
     # Remove rows where sleep duration or other time-based features are zero or negative
     time_columns = ['Weekday_Sleep_Duration', 'Weekend_Sleep_Duration']
     
-    # First calculate sleep durations if they don't exist
+    # Calculate sleep durations if they don't exist
     if 'Weekday_Sleep_Duration' not in df.columns:
-        df['Weekday_Sleep_Duration'] = df['Weekday_Sleep_End'] - df['Weekday_Sleep_Start']
-        df['Weekend_Sleep_Duration'] = df['Weekend_Sleep_End'] - df['Weekend_Sleep_Start']
-        
-        # Adjust for any negative values (e.g., if sleep starts late at night and ends after midnight)
-        df['Weekday_Sleep_Duration'] = df['Weekday_Sleep_Duration'].apply(lambda x: x + 24 if x < 0 else x)
-        df['Weekend_Sleep_Duration'] = df['Weekend_Sleep_Duration'].apply(lambda x: x + 24 if x < 0 else x)
+        df = calculate_sleep_durations(df)
 
     df = df[~df[time_columns].apply(lambda x: (x <= 0).any(), axis=1)]
     return df
@@ -90,10 +96,14 @@ def remove_outliers(df):
 
 def initial_preprocess(df):
     # Apply initial preprocessing steps to the DataFrame.
+    df = calculate_sleep_durations(df)
     df = remove_invalid_values(df)
     df = drop_duplicates(df)
     df = create_derived_features(df)
     df = remove_outliers(df)
-    df.to_csv('datasets/filtered_dataset.csv')
+    
+    # Save filtered dataset if it's the training data
+    if len(df) > 1:  # Only save if it's not a single prediction
+        df.to_csv('datasets/filtered_dataset.csv')
     
     return df

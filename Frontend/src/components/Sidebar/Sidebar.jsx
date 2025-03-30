@@ -18,6 +18,9 @@ export default function Sidebar() {
         <NavLink to='/learn'>
           Learn
         </NavLink>
+        <NavLink to='/tracker'>
+          Tracker
+        </NavLink>
         <p onClick={logout} style={{ cursor: 'pointer' }}>
           Logout
         </p>
