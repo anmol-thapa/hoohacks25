@@ -132,12 +132,12 @@ export default function Tracker() {
 
         <div className={style.formGroup}>
           <label>Physical Activity (minutes):</label>
-          <input type="number" name="Physical_Activity" value={formData.Physical_Activity} onChange={handleChange} required min="0" max="480" step="5" placeholder="Enter physical activity" />
+          <input type="number" name="Physical_Activity" value={formData.Physical_Activity} onChange={handleChange} required min="0" max="480" step="1" placeholder="Enter physical activity" />
         </div>
 
         <div className={style.formGroup}>
           <label>Caffeine Intake (mg):</label>
-          <input type="number" name="Caffeine_Intake" value={formData.Caffeine_Intake} onChange={handleChange} required min="0" max="1000" step="10" placeholder="Enter caffeine intake" />
+          <input type="number" name="Caffeine_Intake" value={formData.Caffeine_Intake} onChange={handleChange} required min="0" max="1000" step="1" placeholder="Enter caffeine intake" />
         </div>
 
         {error && <div className={style.error}>{error}</div>}

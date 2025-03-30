@@ -10,7 +10,6 @@ import Login from './pages/Login/Login.jsx'
 import Signup from './pages/Signup/Signup.jsx'
 
 // Outlet pages
-import Home from './pages/Outlets/Home/Home.jsx'
 import Schedule from './pages/Outlets/Schedule/Schedule.jsx'
 import Learn from './pages/Outlets/Learn/Learn.jsx'
 import Questionnaire from './pages/Questionnaire/Questionnaire.jsx'
@@ -27,10 +26,6 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
-      },
-      {
-        path: '/schedule',
         element: <Schedule />
       },
       {

@@ -10,9 +10,6 @@ export default function Sidebar() {
 
       <div className={style.navButtons}>
         <NavLink to='/'>
-          Home
-        </NavLink>
-        <NavLink to='/schedule'>
           Schedule
         </NavLink>
         <NavLink to='/learn'>
