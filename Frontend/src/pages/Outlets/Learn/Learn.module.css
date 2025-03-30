@@ -71,3 +71,31 @@
   padding: 0 15px;
   line-height: 1.5;
 }
+
+/* Details section */
+.details {
+  margin-top: 15px;
+  text-align: left;
+  color: #cccccc;
+  line-height: 1.5;
+}
+
+/* Tips list */
+.tips {
+  text-align: left;
+  padding-left: 30px;
+  margin-top: 15px;
+  color: #cccccc;
+}
+
+.tips li {
+  margin-bottom: 8px;
+}
+
+/* Extra info */
+.extra {
+  margin-top: 15px;
+  font-style: italic;
+  color: #aaaaaa;
+  text-align: left;
+}
