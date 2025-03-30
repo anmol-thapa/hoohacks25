@@ -1,96 +1,111 @@
+/* General Container */
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: #f7f9fc;
 }
 
+/* Question Card */
 .questionCard {
-  background: white;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 170, 255, 0.15);
   width: 100%;
   max-width: 500px;
   text-align: center;
   transition: transform 0.3s ease-in-out;
+  border: 1px solid #444;
+  /* Subtle border to stand out */
 }
 
+/* Question Text */
 .questionText {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #333;
+  color: #e0e0e0;
+  /* Lighter text for better contrast */
   margin-bottom: 1.5rem;
 }
 
+/* Options List */
 .options {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* Individual Option */
 .option {
-  background: #eceff4;
   padding: 10px 15px;
   border-radius: 8px;
   font-size: 1rem;
-  color: #333;
+  color: #e0e0e0;
+  /* Brighter text for contrast */
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+  border: 1px solid #666;
+  /* Soft border for clarity */
 }
 
+/* Hover Effect */
 .option:hover {
-  background: #d8dee9;
+  border-color: #00aaff;
+  /* Brighter hover */
+  color: #ffffff;
 }
 
+/* Selected Option */
 .selected {
   background: #007bff !important;
   color: white !important;
+  border-color: #0056b3 !important;
 }
 
+/* Buttons Container */
 .buttons {
   margin-top: 1.5rem;
   display: flex;
   justify-content: space-between;
 }
 
+/* General Button Styling */
+.button,
+.finishButton {
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Primary Button */
 .button {
   background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-
-.button:disabled {
-  background: #a0aec0;
-  cursor: not-allowed;
-}
-
-.finishButton {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-
-.finishButton:disabled {
-  background: #a0aec0;
-  cursor: not-allowed;
 }
 
 .button:hover:not(:disabled) {
   background: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Finish Button */
+.finishButton {
+  background: #28a745;
 }
 
 .finishButton:hover:not(:disabled) {
   background: #218838;
+  transform: scale(1.05);
+}
+
+/* Disabled Buttons */
+.button:disabled,
+.finishButton:disabled {
+  background: #555;
+  color: #aaa;
+  cursor: not-allowed;
+  border: 1px solid #777;
 }

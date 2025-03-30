@@ -8,6 +8,11 @@ export const AuthProvider = ({ children }) => {
   // Use promises
   const login = async (data) => {
     return new Promise((resolve, reject) => {
+      const userData = {
+        name: data,
+        questionnaire: null,
+        sleepData: null
+      }
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
       resolve();
@@ -35,10 +40,4 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   return useContext(AuthContext);
-}
-
-const userData = {
-  name: "User1",
-  questionnaire: "",
-  sleepData: null
 }
