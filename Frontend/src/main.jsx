@@ -7,6 +7,7 @@ import ProtectedRoute from './auth/ProtectedRoute.jsx'
 import './index.css'
 import App from './App.jsx'
 import Login from './pages/Login/Login.jsx'
+import Signup from './pages/Signup.jsx'
 
 // Outlet pages
 import Home from './pages/Outlets/Home/Home.jsx'
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/signup',
+    element: <Signup />
   },
   {
     path: '/questionnaire',

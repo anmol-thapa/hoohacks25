@@ -4,12 +4,10 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
-
-  // Use promises
   const login = async (data) => {
     return new Promise((resolve, reject) => {
       const userData = {
-        name: data,
+        id: data.user_id,
         questionnaire: null,
         sleepData: null
       }
@@ -23,9 +21,9 @@ export const AuthProvider = ({ children }) => {
 
   // }
 
-  const logout = async (data) => {
+  const logout = async () => {
     setUser(null);
-    localStorage.setItem('user', JSON.stringify(null));
+    localStorage.removeItem('user');
   }
 
   const data = useMemo(() => ({

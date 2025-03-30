@@ -2,182 +2,168 @@
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
-  background-color: #1a1a1a;
-  min-height: 100vh;
-  color: #e4e6eb;
 }
 
 .form {
-  background: #242526;
+  background-color: #1a1a1a;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
   margin-bottom: 2rem;
-  border: 1px solid #3a3b3c;
 }
 
 .formGroup {
   margin-bottom: 1.5rem;
-  background-color: #242526;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #3a3b3c;
 }
 
 .formGroup label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
   color: #e4e6eb;
-  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .formGroup input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #3a3b3c;
-  border-radius: 6px;
-  font-size: 1rem;
-  background-color: #3a3b3c;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #2a2a2a;
   color: #e4e6eb;
-  transition: all 0.2s ease;
+  font-size: 1rem;
 }
 
 .formGroup input:focus {
   outline: none;
-  border-color: #8a2be2;
-  box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.15);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.formGroup input::placeholder {
+  color: #666;
 }
 
 button {
-  background: #8a2be2;
-  color: #e4e6eb;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
   width: 100%;
-  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-  background: #7a1ad2;
-  transform: translateY(-1px);
+  background-color: #7c3aed;
 }
 
 button:disabled {
-  background: #3a3b3c;
+  background-color: #4b5563;
   cursor: not-allowed;
-  transform: none;
 }
 
 .error {
-  color: #e74c3c;
-  padding: 1rem;
-  background: #3a1a1a;
-  border-radius: 6px;
+  color: #ef4444;
   margin-bottom: 1rem;
-  border: 1px solid #4a2a2a;
+  padding: 0.75rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: 4px;
 }
 
 .result {
-  background: #242526;
+  background-color: #1a1a1a;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  border: 1px solid #3a3b3c;
-}
-
-.score {
-  text-align: center;
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: #2a1a3a;
   border-radius: 8px;
-  border: 1px solid #3a3b3c;
+  margin-bottom: 2rem;
 }
 
-.score h3 {
-  color: #8a2be2;
-  margin: 0;
+.result h2 {
+  color: #e4e6eb;
+  margin-bottom: 1.5rem;
+}
+
+.prediction {
+  margin-bottom: 1.5rem;
+}
+
+.prediction h3 {
+  color: #8b5cf6;
   font-size: 1.5rem;
 }
 
-.insights, .recommendations {
-  margin-bottom: 2rem;
-  background: #242526;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #3a3b3c;
+.insights {
+  margin-bottom: 1.5rem;
+}
+
+.insights h3 {
+  color: #e4e6eb;
+  margin-bottom: 1rem;
 }
 
 .insights ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
 .insights li {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #3a3b3c;
   color: #e4e6eb;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
 }
 
-.insights li:last-child {
-  border-bottom: none;
+.insights li::before {
+  content: "•";
+  color: #8b5cf6;
+  position: absolute;
+  left: 0;
 }
 
-h1 {
-  color: #e4e6eb;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 600;
-}
-
-h2 {
-  color: #e4e6eb;
+.recommendations {
   margin-bottom: 1.5rem;
-  font-size: 2rem;
 }
 
-h3 {
+.recommendations h3 {
   color: #e4e6eb;
   margin-bottom: 1rem;
-  font-size: 1.25rem;
 }
 
-.historySection {
-  margin-top: 3rem;
-  background: #242526;
+.recommendations p {
+  color: #e4e6eb;
+  line-height: 1.6;
+}
+
+.history {
+  background-color: #1a1a1a;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  border: 1px solid #3a3b3c;
+  border-radius: 8px;
+}
+
+.history h2 {
+  color: #e4e6eb;
+  margin-bottom: 1.5rem;
 }
 
 .historyItem {
-  background: #2a2b2c;
+  background-color: #2a2a2a;
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: 4px;
   margin-bottom: 1rem;
-  border: 1px solid #3a3b3c;
 }
 
-.historyItem:last-child {
-  margin-bottom: 0;
-}
-
-.historyDate {
-  color: #b0b3b8;
-  font-size: 0.9rem;
+.historyItem h3 {
+  color: #e4e6eb;
   margin-bottom: 0.5rem;
 }
 
-.historyScore {
-  color: #8a2be2;
-  font-weight: 600;
+.historyItem p {
+  color: #e4e6eb;
   margin-bottom: 0.5rem;
+}
+
+.historyItem h4 {
+  color: #e4e6eb;
+  margin: 1rem 0 0.5rem;
 } 

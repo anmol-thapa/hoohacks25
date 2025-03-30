@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import style from './Tracker.module.css';
 
 export default function Tracker() {
@@ -16,22 +17,30 @@ export default function Tracker() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [history, setHistory] = useState([]);
+  const navigate = useNavigate();
 
-  // Load history from localStorage on component mount
+  // Check if user is logged in
   useEffect(() => {
-    const savedHistory = localStorage.getItem('sleepHistory');
-    if (savedHistory) {
-      setHistory(JSON.parse(savedHistory));
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      navigate('/login');
+      return;
     }
-  }, []);
+    // Load history from MongoDB
+    loadHistory(userId);
+  }, [navigate]);
 
-  const decimalToTime = (decimal) => {
-    if (decimal === '') return '';
-    const hours = Math.floor(decimal);
-    const minutes = Math.round((decimal - hours) * 60);
-    const period = hours >= 12 ? 'PM' : 'AM';
-    const displayHours = hours % 12 || 12;
-    return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+  const loadHistory = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/history/${userId}`);
+      if (!response.ok) {
+        throw new Error('Failed to load history');
+      }
+      const data = await response.json();
+      setHistory(data.records);
+    } catch (err) {
+      console.error('Error loading history:', err);
+    }
   };
 
   const handleChange = (e) => {
@@ -47,10 +56,17 @@ export default function Tracker() {
     setLoading(true);
     setError(null);
 
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      navigate('/login');
+      return;
+    }
+
     try {
-      // Convert inputs to numbers
+      // Convert all inputs to numbers
       const processedData = {
         ...formData,
+        user_id: userId,
         Weekday_Sleep_Start: Number(formData.Weekday_Sleep_Start),
         Weekend_Sleep_Start: Number(formData.Weekend_Sleep_Start),
         Weekday_Sleep_End: Number(formData.Weekday_Sleep_End),
@@ -69,35 +85,13 @@ export default function Tracker() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get prediction');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get prediction');
       }
 
       const data = await response.json();
-      
-      // Convert decimal times to AM/PM format for insights
-      const formattedData = {
-        ...data,
-        insights: data.insights.map(insight => {
-          // Replace decimal times with AM/PM format in insights
-          return insight.replace(/(\d+\.\d+)/g, (match) => {
-            return decimalToTime(Number(match));
-          });
-        })
-      };
-      
-      setResult(formattedData);
-
-      // Add to history
-      const newHistoryItem = {
-        ...formattedData,
-        date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
-        input: { ...formData }
-      };
-
-      const updatedHistory = [newHistoryItem, ...history];
-      setHistory(updatedHistory);
-      localStorage.setItem('sleepHistory', JSON.stringify(updatedHistory));
+      setResult(data);
+      loadHistory(userId); // Reload history after new submission
 
       // Clear form
       setFormData({
@@ -118,8 +112,6 @@ export default function Tracker() {
 
   return (
     <div className={style.container}>
-      <h1>Sleep Pattern Tracker</h1>
-      
       <form onSubmit={handleSubmit} className={style.form}>
         <div className={style.formGroup}>
           <label>Weekday Sleep Start (decimal hours):</label>
@@ -128,11 +120,11 @@ export default function Tracker() {
             name="Weekday_Sleep_Start"
             value={formData.Weekday_Sleep_Start}
             onChange={handleChange}
-            placeholder="Enter time"
             required
             min="0"
             max="24"
             step="0.5"
+            placeholder="Enter time (e.g., 23.5 for 11:30 PM)"
           />
         </div>
 
@@ -143,11 +135,11 @@ export default function Tracker() {
             name="Weekend_Sleep_Start"
             value={formData.Weekend_Sleep_Start}
             onChange={handleChange}
-            placeholder="Enter time"
             required
             min="0"
             max="24"
             step="0.5"
+            placeholder="Enter time (e.g., 0.5 for 12:30 AM)"
           />
         </div>
 
@@ -158,11 +150,11 @@ export default function Tracker() {
             name="Weekday_Sleep_End"
             value={formData.Weekday_Sleep_End}
             onChange={handleChange}
-            placeholder="Enter time"
             required
             min="0"
             max="24"
             step="0.5"
+            placeholder="Enter time (e.g., 7.5 for 7:30 AM)"
           />
         </div>
 
@@ -173,105 +165,100 @@ export default function Tracker() {
             name="Weekend_Sleep_End"
             value={formData.Weekend_Sleep_End}
             onChange={handleChange}
-            placeholder="Enter time"
             required
             min="0"
             max="24"
             step="0.5"
+            placeholder="Enter time (e.g., 9.0 for 9:00 AM)"
           />
         </div>
 
         <div className={style.formGroup}>
-          <label>Screen Time (hours per day):</label>
+          <label>Screen Time (hours):</label>
           <input
             type="number"
             name="Screen_Time"
             value={formData.Screen_Time}
             onChange={handleChange}
-            placeholder="Enter hours"
             required
             min="0"
             max="24"
             step="0.5"
+            placeholder="Enter screen time"
           />
         </div>
 
         <div className={style.formGroup}>
-          <label>Physical Activity (minutes per day):</label>
+          <label>Physical Activity (minutes):</label>
           <input
             type="number"
             name="Physical_Activity"
             value={formData.Physical_Activity}
             onChange={handleChange}
-            placeholder="Enter minutes"
             required
             min="0"
-            max="1440"
+            max="480"
             step="5"
+            placeholder="Enter physical activity"
           />
         </div>
 
         <div className={style.formGroup}>
-          <label>Caffeine Intake (mg per day):</label>
+          <label>Caffeine Intake (mg):</label>
           <input
             type="number"
             name="Caffeine_Intake"
             value={formData.Caffeine_Intake}
             onChange={handleChange}
-            placeholder="Enter milligrams"
             required
             min="0"
             max="1000"
             step="10"
+            placeholder="Enter caffeine intake"
           />
         </div>
+
+        {error && <div className={style.error}>{error}</div>}
 
         <button type="submit" disabled={loading}>
           {loading ? 'Analyzing...' : 'Analyze Sleep Pattern'}
         </button>
       </form>
 
-      {error && <div className={style.error}>{error}</div>}
-
       {result && (
         <div className={style.result}>
           <h2>Analysis Results</h2>
-          <div className={style.score}>
+          <div className={style.prediction}>
             <h3>Sleep Quality Score: {result.prediction.toFixed(1)}/10</h3>
           </div>
-          
           <div className={style.insights}>
-            <h3>Key Insights</h3>
+            <h3>Insights:</h3>
             <ul>
               {result.insights.map((insight, index) => (
                 <li key={index}>{insight}</li>
               ))}
             </ul>
           </div>
-
           <div className={style.recommendations}>
-            <h3>Recommendations</h3>
+            <h3>Recommendations:</h3>
             <p>{result.recommendations}</p>
           </div>
         </div>
       )}
 
       {history.length > 0 && (
-        <div className={style.historySection}>
+        <div className={style.history}>
           <h2>Sleep History</h2>
-          {history.map((item, index) => (
+          {history.map((record, index) => (
             <div key={index} className={style.historyItem}>
-              <div className={style.historyDate}>
-                {item.date} at {item.time}
-              </div>
-              <div className={style.historyScore}>
-                Sleep Quality Score: {item.prediction.toFixed(1)}/10
-              </div>
+              <h3>Record {history.length - index}</h3>
+              <p>Sleep Quality: {record.prediction.toFixed(1)}/10</p>
+              <p>Date: {new Date(record.created_at).toLocaleDateString()}</p>
               <div className={style.insights}>
-                <h3>Key Insights</h3>
+                <h4>Insights:</h4>
                 <ul>
-                  {item.insights.map((insight, idx) => (
-                    <li key={idx}>{insight}</li>
+                  {record.insights.map((insight, i) => (
+                    <li key={i}>{insight}</li>
                   ))}
                 </ul>
               </div>

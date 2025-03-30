@@ -9,6 +9,7 @@ import google.generativeai as genai
 from preprocessing import initial_preprocess
 import os
 from dotenv import load_dotenv
+from database import create_user, verify_user, save_sleep_record, get_user_sleep_records
 
 # Load environment variables
 load_dotenv()
@@ -178,6 +179,45 @@ Make the recommendations personalized to their specific patterns and relative to
     except Exception as e:
         return get_fallback_recommendations(data, insights)
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    """Handle user signup"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+        
+        if not username or not email or not password:
+            return jsonify({'error': 'Username, email and password are required'}), 400
+        
+        user_id, error = create_user(username, email, password)
+        if error:
+            return jsonify({'error': error}), 400
+        
+        return jsonify({'message': 'User created successfully', 'user_id': user_id})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/login', methods=['POST'])
+def login():
+    """Handle user login"""
+    try:
+        data = request.get_json()
+        identifier = data.get('username') or data.get('email')
+        password = data.get('password')
+        
+        if not identifier or not password:
+            return jsonify({'error': 'Username/Email and password are required'}), 400
+        
+        user_id, error = verify_user(identifier, password)
+        if error:
+            return jsonify({'error': error}), 401
+        
+        return jsonify({'message': 'Login successful', 'user_id': user_id})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """Make predictions on sleep quality and generate recommendations"""
@@ -194,10 +234,16 @@ def predict():
 
         # Get data from request
         data = request.get_json()
+        user_id = data.get('user_id')
         
-        # Remove Sleep_Quality if it exists in the input
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+        
+        # Remove Sleep_Quality and user_id if they exist in the input
         if 'Sleep_Quality' in data:
             del data['Sleep_Quality']
+        if 'user_id' in data:
+            del data['user_id']
         
         # Convert to DataFrame
         df = pd.DataFrame([data])
@@ -214,12 +260,22 @@ def predict():
         # Generate recommendations
         recommendations = generate_recommendations(data, prediction, insights)
         
+        # Save record to database
+        record_data = {
+            'prediction': float(prediction),
+            'insights': insights,
+            'recommendations': recommendations,
+            'input_data': data
+        }
+        record_id = save_sleep_record(user_id, record_data)
+        
         response = {
             'prediction': float(prediction),
             'message': 'Prediction successful',
             'insights': insights,
             'recommendations': recommendations,
-            'using_fallback': not GEMINI_AVAILABLE
+            'using_fallback': not GEMINI_AVAILABLE,
+            'record_id': record_id
         }
         
         return jsonify(response)
@@ -232,6 +288,15 @@ def predict():
         return jsonify({
             'error': f'Error processing request: {str(e)}'
         }), 500
+
+@app.route('/history/<user_id>', methods=['GET'])
+def get_history(user_id):
+    """Get user's sleep history"""
+    try:
+        records = get_user_sleep_records(user_id)
+        return jsonify({'records': records})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

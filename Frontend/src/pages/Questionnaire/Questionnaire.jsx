@@ -11,6 +11,12 @@ export default function Questionnaire() {
   const [answers, setAnswers] = useState({});
   const [finished, setFinished] = useState(false);
 
+  // If user is not authenticated, redirect to login
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  // If user has already completed the questionnaire, redirect to home
   if (user.questionnaire) {
     return <Navigate to="/" />;
   }
