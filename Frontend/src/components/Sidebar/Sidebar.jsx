@@ -8,6 +8,10 @@ export default function Sidebar() {
   return (
     <div className={style.sidebar}>
 
+      <div className={style.appName}>
+        <h1>Dormio</h1>
+      </div>
+
       <div className={style.navButtons}>
         <NavLink to='/'>
           Schedule
